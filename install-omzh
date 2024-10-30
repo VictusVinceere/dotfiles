@@ -1,0 +1,87 @@
+#!/bin/bash
+
+echo "Starting Oh My Zsh installation script..."
+
+# Install zsh if not installed
+if ! command -v zsh &> /dev/null; then
+    echo "Installing Zsh..."
+    sudo apt update
+    sudo apt install -y zsh
+fi
+
+# Install curl if not installed
+if ! command -v curl &> /dev/null; then
+    echo "Installing curl..."
+    sudo apt install -y curl
+fi
+
+# Install git if not installed
+if ! command -v git &> /dev/null; then
+    echo "Installing git..."
+    sudo apt install -y git
+fi
+
+# Install Oh My Zsh
+echo "Installing Oh My Zsh..."
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+# Install popular plugins
+echo "Installing plugins..."
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+# Backup existing .zshrc
+if [ -f ~/.zshrc ]; then
+    mv ~/.zshrc ~/.zshrc.backup
+fi
+
+# Create new .zshrc with common settings
+cat > ~/.zshrc << 'EOL'
+# Path to oh-my-zsh installation
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set theme
+ZSH_THEME="robbyrussell"
+
+# Set plugins
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    docker
+    npm
+    sudo
+    web-search
+)
+
+# Source oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# Aliases
+alias zshconfig="nvim ~/.zshrc"
+alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias update="sudo apt update && sudo apt upgrade"
+alias c="clear"
+alias ..="cd .."
+alias ...="cd ../.."
+alias l="ls -la"
+alias h="history"
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
+
+# Set editor
+export EDITOR='nvim'
+
+# Custom PATH additions
+export PATH=$HOME/.local/bin:$PATH
+
+EOL
+
+# Change default shell to zsh
+echo "Changing default shell to Zsh..."
+chsh -s $(which zsh)
+
+echo "Installation complete!"
+echo "Please log out and log back in to start using Zsh with Oh My Zsh"
+echo "Your old .zshrc has been backed up to ~/.zshrc.backup"

@@ -19,3 +19,9 @@ opacity = 0.9
 x = 6
 y = 0
 
+[shell]
+program = "/usr/bin/zsh"
+args = ["--login"]
+
+[env]
+TERM = "xterm-256color"

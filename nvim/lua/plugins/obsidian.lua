@@ -1,24 +1,8 @@
 require("obsidian").setup({
 	workspaces = {
-		-- {
-		--   name = "Vinceere",
-		--   path = "/Users/Vinceere/Obsidian/vinceere",
-		-- },
-		{
-			name = "Notes",
-			path = "~/Documents/personal",
-		},
 		{
 			name = "Notes",
 			path = "~/Documents/work",
-		},
-		{
-			name = "Notes",
-			path = "~/Documents/business",
-		},
-		{
-			name = "Notes",
-			path = "~/Documents/programming",
 		},
 	},
 	completion = {
